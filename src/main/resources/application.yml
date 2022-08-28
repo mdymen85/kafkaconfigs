@@ -1,0 +1,23 @@
+application:
+  retry:
+    topic:
+      from: retry-topic
+      to: retry-topic
+  topic:
+    from: normal-topic
+    to: normal-topic
+  normal-topic: true
+
+server:
+  port: 8084
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: 127.0.0.1:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
