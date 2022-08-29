@@ -7,14 +7,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
-public class RetryConfigs {
+public class RetryConsumerConfig {
 
-    @Value("${application.retry.topic.from:retry-topic}")
+    @Value("${application.topic.retry-consumer:retry-topic}")
     private String retryTopic;
 
+    @Value("${application.topic.reply:reply-topic}")
+    private String replyTopic;
+
     @Bean
-    public NewTopic retryTopic() {
+    public NewTopic retryConsumerTopic() {
         return TopicBuilder.name(retryTopic)
+                .partitions(3)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic replyConsumerTopic() {
+        return TopicBuilder.name(replyTopic)
                 .partitions(3)
                 .replicas(1)
                 .build();

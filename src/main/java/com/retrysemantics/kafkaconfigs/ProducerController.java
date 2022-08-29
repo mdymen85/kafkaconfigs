@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ProducerController {
 
-    @Value("${application.topic.to:normal-topic}")
+    @Value("${application.topic.consumer:normal-topic}")
     private String topic;
 
-    @Value("${application.retry.topic.to:retry-topic}")
+    @Value("${application.topic.retry:retry-topic}")
     private String retryTopic;
+
+    @Value("${application.topic.retry-consumer:retry-consumer-topic}")
+    private String retryConsumerTopic;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
@@ -42,6 +45,17 @@ public class ProducerController {
         log.info("Sending message {} to topic {}.", eventProducer, retryTopic);
 
         kafkaTemplate.send(retryTopic, eventProducer.getData());
+
+        return new ResponseEntity<EventProducer>(eventProducer, HttpStatus.ACCEPTED);
+
+    }
+
+    @RequestMapping(path = "/v1/retryconsumer", method = RequestMethod.POST)
+    public ResponseEntity<EventProducer> postRetryConsumer(@RequestBody EventProducer eventProducer) {
+
+        log.info("Sending message {} to topic {}.", eventProducer, retryConsumerTopic);
+
+        kafkaTemplate.send(retryConsumerTopic, eventProducer.getData());
 
         return new ResponseEntity<EventProducer>(eventProducer, HttpStatus.ACCEPTED);
 

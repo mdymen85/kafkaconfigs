@@ -1,12 +1,12 @@
 application:
-  retry:
-    topic:
-      from: retry-topic
-      to: retry-topic
   topic:
-    from: normal-topic
-    to: normal-topic
-  normal-topic: true
+    consumer: normal-topic
+    consumer-enabled: true
+    retry: retry-topic
+    retry-enabled: true
+    retry-consumer: retry-consumer-topic
+    reply: reply-topic
+    retry-consumer-enabled: r
 
 server:
   port: 8084

@@ -14,9 +14,8 @@ public class Consumer {
     private static int TIME_SECONDS = 0;
     private static int DESIRED_SECONDS = 2;
 
-    @Value("${application.topic.from:normal-topic}")
+    @Value("${application.topic.consumer:normal-topic}")
     private String normalTopic;
-
 
     /**
      * Will receive an event and will retry 10 times and, until
@@ -25,7 +24,7 @@ public class Consumer {
      * @param eventConsumer
      * @throws Exception
      */
-    @KafkaListener(topics = "${application.topic.from}", groupId = "listener")
+    @KafkaListener(topics = "${application.topic.consumer}", groupId = "listener")
     public void consumer(String eventConsumer) throws Exception {
         log.info("Reading message {} from topic {}.", eventConsumer, normalTopic);
 
